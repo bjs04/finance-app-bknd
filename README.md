@@ -4,6 +4,15 @@ A secure, scalable RESTful backend service for financial transaction logging, us
 
 ---
 
+## 🔗 Related Repositories
+
+This backend service is paired with a React frontend:
+
+- **Backend Repository (This Repo)**: [finance-app-backend](https://github.com/bjs04/finance-app-bknd)
+- **Frontend Repository**: [finance-app-frontend](https://github.com/bjs04/finance-app-frtnd) *(React 19, Vite, Material-UI)*
+
+---
+
 ## 🚀 Key Features
 
 * **Google OAuth2 Authentication**: Stateless verification of Google ID tokens directly via Google API client certificates.
