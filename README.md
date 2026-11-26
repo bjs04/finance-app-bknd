@@ -21,7 +21,7 @@ A secure, scalable RESTful backend service for financial transaction logging, us
 
 ## 🛠️ Tech Stack
 
-* **Java**: 25 (or Java 17+ compatible)
+* **Java**: 21+
 * **Framework**: Spring Boot (Web, Security, Data JPA, Data Redis, Validation)
 * **Database**: MySQL 8.0+
 * **In-Memory Cache**: Redis 7+ (via `StringRedisTemplate`)
