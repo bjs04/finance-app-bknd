@@ -1,0 +1,66 @@
+services:
+  # ---------------------------------------------
+  # 1. MySQL Database Container
+  # ---------------------------------------------
+  mysql:
+    image: mysql:8.0
+    container_name: finance-mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: cag_finance_db
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+    ports:
+      - "3307:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  # ---------------------------------------------
+  # 2. Redis Cache Container
+  # ---------------------------------------------
+  redis:
+    image: redis:alpine
+    container_name: finance-redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+
+  # ---------------------------------------------
+  # 3. Spring Boot Backend Container
+  # ---------------------------------------------
+  backend:
+    build: .
+    container_name: finance-backend
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+    depends_on:
+      mysql:
+        condition: service_healthy
+      redis:
+        condition: service_started
+    environment:
+      # Connect to the MySQL container by name
+      - DB_URL=jdbc:mysql://mysql:3306/cag_finance_db
+      - DB_USERNAME=root
+      - DB_PASSWORD=${DB_PASSWORD}
+
+      # Connect to the Redis container by name
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+
+      # External APIs (read from your .env file)
+      - GOOGLE_CLIENT_ID=${GOOGLE_CLIENT_ID}
+      - CLOUDINARY_CLOUD_NAME=${CLOUDINARY_CLOUD_NAME}
+      - CLOUDINARY_API_KEY=${CLOUDINARY_API_KEY}
+      - CLOUDINARY_API_SECRET=${CLOUDINARY_API_SECRET}
+
+# ---------------------------------------------
+# Named volume ensures MySQL data is never lost
+# ---------------------------------------------
+volumes:
+  mysql_data:

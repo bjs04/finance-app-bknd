@@ -51,8 +51,29 @@ Before running the backend, make sure you have:
 
 ## ⚡ Quick Start
 
-### 1. Start the Redis Container
-Run Redis in Docker:
+### Option A: Run with Docker Compose (Recommended)
+Run the entire stack (Spring Boot, MySQL, and Redis) in a single command:
+```bash
+docker compose up -d --build
+```
+* **Backend API**: `http://localhost:8080`
+* **MySQL**: Port `3307` (mapped to avoid local port 3306 conflict)
+* **Redis**: Port `6379`
+
+To view live backend logs:
+```bash
+docker compose logs -f backend
+```
+
+To stop all services:
+```bash
+docker compose down
+```
+
+---
+
+### Option B: Run Locally with Maven & Docker
+1. Start the Redis Container:
 ```bash
 docker run -d --name redis -p 6379:6379 --restart unless-stopped redis:alpine
 ```

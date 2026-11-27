@@ -30,7 +30,7 @@ public class DataSeeder {
 
             String myAdminEmail = "benjonathan0110@gmail.com"; 
             AppUser existingUser = userRepo.findByEmail(myAdminEmail)
-                                .orElseThrow(null);;
+                                .orElse(null);
 
             if (existingUser == null) {
                 // CASE A: Create a brand new Admin account WITH all permissions
